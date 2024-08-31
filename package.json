@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node --watch index.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "Ives van Hoorne",
   "license": "MIT",
