@@ -21,14 +21,16 @@ io.on("connection", function(socket){
   console.log("FROM IP :" + socket.handshake.address);
 
   socket.on("chatMessage", async function(data) { // async 추가
-    console.log("Received Data: " + data);
+    console.log("Received Data: " + data.ID+" : "+data.Message);
 
     try {
-        const result = await sendGPTTranslate(data); // await 추가
-        io.emit("chatMessage", result);
+        const result = await sendGPTTranslate(data.Message); // await 추가
+        const resultData = { ID: data.ID, Message: result };
+        io.emit("chatMessage", resultData);
     } catch (error) {
         console.error("Error translating message:", error);
-        io.emit("chatMessage", "[Translation Failed]:"+data);
+        const resultData = { ID: data.ID, Message: "[Translation Failed]:"+data.Message };
+        io.emit("chatMessage", resultData);
     }
   });
 });
