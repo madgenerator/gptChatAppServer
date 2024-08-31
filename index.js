@@ -4,7 +4,7 @@ const socketIo = require("socket.io");
 const http = require("http");
 const { OpenAI } = require('openai');
 const openai = new OpenAI({
-  apiKey: "sk-svcacct-YqiH857BG9GrragcWyRMlD6iljWkYMpfGTKFsIYyc9BTVBGT3BlbkFJBD-trybAHjuuVLRFQ87vkVM2qWf3ttNkOGrkgzzSlB-TkAA",  // 여기에 OpenAI API 키를 입력하세요
+  apiKey: "sk-svcacct-YqiH857BG9GrragcWyRMlD6iljWkYMpfGTKFsIYyc9BTVBGT3BlbkFJBD-trybAHjuuVLRFQ87vkVM2qWf3ttNkOGrkgzzSlB-TkAA",  // key는 User(front) 아닌 Bot(Server) 용으로 생성
 });
 
 const app = express();
@@ -25,9 +25,10 @@ io.on("connection", function(socket){
 
   socket.on("chatMessage", async function(data) { // async 추가
     console.log("Received Data: " + data.ID+" : "+data.Message);
+    const language = "japanese"; //data.Language
 
     try {
-        const result = await sendGPTTranslate(data.Message); // await 추가
+        const result = await sendGPTTranslate(data.Message,language); // await 추가
         const resultData = { ID: data.ID, Message: result };
         io.emit("chatMessage", resultData);
     } catch (error) {
@@ -50,17 +51,17 @@ app.get("/", (req, res) => {
 
 
 //GPT Setup
-async function sendGPTTranslate(prompt) {
+async function sendGPTTranslate(prompt, language) {
   try {
     //질문 - body에
     let text1 = prompt;
     console.log("[QUESTION] "+ text1);
-    let text2 = prompt + ":" +"translate it in Japanese.";
+    let text2 = prompt + ":" +"translate it in "+language+".";
 
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo', //"gpt-4o" //"gpt-4o-mini"
       messages: [
-        { role: 'user', content: prompt }
+        { role: 'user', content: text2 }
       ],
       max_tokens: 100,
       temperature: 0.7
