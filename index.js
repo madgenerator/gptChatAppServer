@@ -66,7 +66,7 @@ async function sendGPTTranslate(userInput){
         
     const payload = {
       model: "gpt-3.5-turbo",//"gpt-4o" //"gpt-4o-mini"
-      messages: [{ role: "user", content: "안녕하세요" }],
+      messages: [{ role: "user", content: text2 }],
       temperature: 0.7
     };
 
@@ -74,11 +74,11 @@ async function sendGPTTranslate(userInput){
     console.log("Headers:", headers);
     console.log("Payload:", payload);
     
-    const response = await axios.post(url, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(payload)
-    });
+    const response = await axios.post(
+      url,
+      payload,
+      { headers }
+    );
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
