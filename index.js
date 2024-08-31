@@ -79,7 +79,7 @@ async function sendGPTTranslate(userInput){
       'https://api.openai.com/v1/chat/completions',
       {
           model: 'gpt-3.5-turbo', // 또는 'gpt-4'
-          messages: [{ role: 'user', content: prompt }],
+          messages: [{ role: 'user', content: text2 }],
           temperature: 0.7
       },
       {
