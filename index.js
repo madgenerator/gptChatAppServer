@@ -1,34 +1,37 @@
-const express = require("express"); //nodejs server library
-//socket.io : websocket -> FAST Request / Response
-const socketIo = require("socket.io"); //websocket -> http websocket
+const express = require("express");
+const cors = require('cors');
+const socketIo = require("socket.io");
 const http = require("http");
 const path = require("path");
 
 const app = express();
-app.use(express.static(path.join(__dirname, "src")));
+app.use(cors()); // CORS 설정
+
 const server = http.createServer(app);
 
-//websocket message data get and emit all
-const io = socketIo(server);
-io.on("connection", function (socket) {
-  console.log("somebody connected our server!!");
-  console.log("FROM IP :" + socket.handshake.address);
-
-  //receive emitted message
-  socket.on("chatMessage", function (data) {
-    console.log("Received Data: " + data);
-    //Emit Received Message to All Client
-    io.emit("chatMessage", data);
-  });
+const io = socketIo(server, {
+  cors: {
+    origin: "*", // 모든 출처 허용 (개발 및 테스트 환경)
+    methods: ["GET", "POST"]
+  }
 });
 
-//Server (server_address :192.168.137.102 (=naver.com) / PORT = 3000)
-const PORT = 3000;
-server.listen(PORT, function () {
-  console.log("Server is running on port " + PORT);
+io.on("connection", function(socket){
+    console.log("somebody connected our server!!");
+    console.log("FROM IP :" + socket.handshake.address);
+
+    socket.on("chatMessage", function(data){
+        console.log("Received Data: " + data);
+        io.emit("chatMessage", data);
+    });
 });
 
-//default response
+const PORT = process.env.PORT || 3000; // Heroku에서 제공하는 포트를 사용하고, 없으면 3000 포트 사용
+server.listen(PORT, () => {
+    console.log("Server is running on port " + PORT);
+});
+
+// default response
 app.get("/", (req, res) => {
   res.send("welcome to chatting Server");
 });
