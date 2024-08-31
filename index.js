@@ -57,17 +57,21 @@ async function sendGPTTranslate(prompt) {
     console.log("[QUESTION] "+ text1);
     let text2 = prompt + ":" +"translate it in Japanese.";
 
-    const response = await openai.completions.create({
-      model: "gpt-3.5-turbo",//"gpt-4o" //"gpt-4o-mini"
-      prompt: text2,
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo', //"gpt-4o" //"gpt-4o-mini"
+      messages: [
+        { role: 'user', content: prompt }
+      ],
+      max_tokens: 100,
       temperature: 0.7
     });
 
-    result = response.choices[0].text.trim();
+    result = response.choices[0].message.content.trim();
     console.log('Response:', result);
     return result;
 
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
   }
 }
