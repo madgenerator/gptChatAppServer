@@ -66,7 +66,7 @@ async function sendGPTTranslate(userInput){
         
     const payload = {
       model: "gpt-3.5-turbo",//"gpt-4o" //"gpt-4o-mini"
-      messages: [{ role: "user", content: text2 }],
+      messages: [{ role: "user", content: "안녕하세요" }],
       temperature: 0.7
     };
 
