@@ -3,6 +3,7 @@ const cors = require('cors');
 const socketIo = require("socket.io");
 const http = require("http");
 const path = require("path");
+const fetch = require('node-fetch');
 
 const app = express();
 app.use(cors()); // CORS 설정
