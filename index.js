@@ -4,7 +4,7 @@ const socketIo = require("socket.io");
 const http = require("http");
 const { OpenAI } = require('openai');
 const openai = new OpenAI({
-  apiKey: "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",  // 여기에 OpenAI API 키를 입력하세요
+  apiKey: "sk-svcacct-YqiH857BG9GrragcWyRMlD6iljWkYMpfGTKFsIYyc9BTVBGT3BlbkFJBD-trybAHjuuVLRFQ87vkVM2qWf3ttNkOGrkgzzSlB-TkAA",  // 여기에 OpenAI API 키를 입력하세요
 });
 
 const app = express();
