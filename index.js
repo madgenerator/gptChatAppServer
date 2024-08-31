@@ -59,6 +59,7 @@ async function sendGPTTranslate(userInput){
       'Authorization': `Bearer ${apiKey}`
     };
 
+
     //질문 - body에
     let text1 = userInput;
     console.log("[QUESTION] "+ text1);
@@ -75,10 +76,19 @@ async function sendGPTTranslate(userInput){
     console.log("Payload:", payload);
     
     const response = await axios.post(
-      url,
-      payload,
-      { headers }
-    );
+      'https://api.openai.com/v1/chat/completions',
+      {
+          model: 'gpt-3.5-turbo', // 또는 'gpt-4'
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.7
+      },
+      {
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}` // 올바른 API 키를 포함
+          }
+      }
+  );
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
