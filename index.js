@@ -48,7 +48,6 @@ io.on("connection", function(socket){
   //채팅 메세지 입력할 때 
   socket.on("chatMessage", async function(data) { // async 추가
     console.log("Received Data: " + data.ID+" : "+data.Message);
-    const language = "English"; //data.Language
 
     const message = data.Message;
 
