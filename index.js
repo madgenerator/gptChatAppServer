@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 
 
 //GPT Setup
-const apiKey = "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";
+const apiKey = "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";
 const url = 'https://api.openai.com/v1/chat/completions';
 
 async function sendGPTTranslate(userInput){
