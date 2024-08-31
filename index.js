@@ -3,7 +3,7 @@ const cors = require('cors');
 const socketIo = require("socket.io");
 const http = require("http");
 const path = require("path");
-const fetch = require('node-fetch');
+const axios = require('axios'); // axios 모듈 불러오기
 
 const app = express();
 app.use(cors()); // CORS 설정
@@ -74,7 +74,7 @@ async function sendGPTTranslate(userInput){
     console.log("Headers:", headers);
     console.log("Payload:", payload);
     
-    const response = await fetch(url, {
+    const response = await axios.post(url, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(payload)
