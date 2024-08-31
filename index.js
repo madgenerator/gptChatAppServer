@@ -9,7 +9,7 @@ const openai = new OpenAI({
 
 // 사용자 정보 저장을 위한 객체
 const userInfo = {};
-const languageList = {};
+const languageList = [];
 
 const app = express();
 app.use(cors()); // CORS 설정
