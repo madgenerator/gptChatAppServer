@@ -30,6 +30,7 @@ io.on("connection", function(socket){
         console.error("Error translating message:", error);
         io.emit("chatMessage", "[Translation Failed]:"+data);
     }
+  });
 });
 
 const PORT = process.env.PORT || 3000; // Heroku에서 제공하는 포트를 사용하고, 없으면 3000 포트 사용
