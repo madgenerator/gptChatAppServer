@@ -17,13 +17,19 @@ const io = socketIo(server, {
 });
 
 io.on("connection", function(socket){
-    console.log("somebody connected our server!!");
-    console.log("FROM IP :" + socket.handshake.address);
+  console.log("somebody connected our server!!");
+  console.log("FROM IP :" + socket.handshake.address);
 
-    socket.on("chatMessage", function(data){
-        console.log("Received Data: " + data);
-        io.emit("chatMessage", data);
-    });
+  socket.on("chatMessage", async function(data) { // async 추가
+    console.log("Received Data: " + data);
+
+    try {
+        const result = await sendGPTTranslate(data); // await 추가
+        io.emit("chatMessage", result);
+    } catch (error) {
+        console.error("Error translating message:", error);
+        io.emit("chatMessage", "[Translation Failed]:"+data);
+    }
 });
 
 const PORT = process.env.PORT || 3000; // Heroku에서 제공하는 포트를 사용하고, 없으면 3000 포트 사용
@@ -35,3 +41,51 @@ server.listen(PORT, () => {
 app.get("/", (req, res) => {
   res.send("welcome to chatting Server");
 });
+
+
+//GPT Setup
+const apiKey = "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";
+const url = 'https://api.openai.com/v1/chat/completions';
+
+async function sendGPTTranslate(userInput){
+  try {
+    //인증 - header에
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    };
+
+    //질문 - body에
+    let text1 = userInput;
+    console.log("[QUESTION] "+ text1);
+    let text2 = userInput + ":" +"translate it in Japanese.";
+        
+    const payload = {
+      model: "gpt-3.5-turbo",//"gpt-4o" //"gpt-4o-mini"
+      messages: [{ role: "user", content: text2 }],
+      temperature: 0.7
+    };
+
+    console.log("URL:", url);
+    console.log("Headers:", headers);
+    console.log("Payload:", payload);
+    
+    const response = await fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    const responseMessage = responseData.choices[0].message.content;
+    console.log(responseMessage);
+    return responseMessage;
+  } 
+  catch (error) {
+    console.error("Error:", error);
+  }
+}
