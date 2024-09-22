@@ -4,7 +4,7 @@ const socketIo = require("socket.io");
 const http = require("http");
 const { OpenAI } = require('openai');
 const openai = new OpenAI({
-  apiKey: "sk-svcacct-pix7mpoz7BQT924bhiEb-10kmOvsiGkCw-5ctFypCMZ4TTBJ4Ut792F_hOVKPw4pjJ3T3BlbkFJBov5lha1pEF-04Pp4c04aQEQxjpJ5gEn_UR-T9wexW1NG8Swz0LqZMRUzKzTIDxvtAA",  // key는 User(front) 아닌 Bot(Server) 용으로 생성
+  apiKey: "MY_API_KEY",  // key는 User(front) 아닌 Bot(Server) 용으로 생성
 });
 
 // 사용자 정보 저장을 위한 객체
