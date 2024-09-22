@@ -36,6 +36,8 @@ io.on("connection", function(socket){
 
   // 사용자가 언어를 설정할 때
   socket.on("setLanguage", function(Language){
+
+    //key : socket.id , value : Language
     userInfo[socket.id] = Language;
 
     // 언어가 목록에 없으면 추가합니다.
@@ -68,10 +70,10 @@ io.on("connection", function(socket){
     }
 
     // userInfo 의 clientId를 key, user를 value로 반환 (clientId 에 해당하는 값을 반환 (language: Language))
-    for (const [clientId, language] of Object.entries(userInfo)) {
+    for (const [socketId, language] of Object.entries(userInfo)) {
       const userLanguage = language;
       const translatedMessage = translations[userLanguage] || `[Translation Failed]: ${message}`;
-      io.to(clientId).emit("chatMessage", { ID: data.ID, Message: translatedMessage });
+      io.to(socketId).emit("chatMessage", { ID: data.ID, Message: translatedMessage });
     }
     
     /*
