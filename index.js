@@ -28,7 +28,7 @@ io.on("connection", function(socket){
   console.log("FROM IP :" + socket.handshake.address);
 
   //기본은 english
-  userInfo[socket.id] = { language: "English" }; 
+  userInfo[socket.id] = "English"; 
   if (!languageList.includes("English")) {
     languageList.push("English");
     console.log(`New language added: ${"English"}`);
@@ -36,7 +36,7 @@ io.on("connection", function(socket){
 
   // 사용자가 언어를 설정할 때
   socket.on("setLanguage", function(Language){
-    userInfo[socket.id] = { language: Language };
+    userInfo[socket.id] = Language;
 
     // 언어가 목록에 없으면 추가합니다.
     if (!languageList.includes(Language)) {
@@ -68,8 +68,8 @@ io.on("connection", function(socket){
     }
 
     // userInfo 의 clientId를 key, user를 value로 반환 (clientId 에 해당하는 값을 반환 (language: Language))
-    for (const [clientId, user] of Object.entries(userInfo)) {
-      const userLanguage = user.language;
+    for (const [clientId, language] of Object.entries(userInfo)) {
+      const userLanguage = language;
       const translatedMessage = translations[userLanguage] || `[Translation Failed]: ${message}`;
       io.to(clientId).emit("chatMessage", { ID: data.ID, Message: translatedMessage });
     }
