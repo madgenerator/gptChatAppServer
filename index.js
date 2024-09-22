@@ -73,7 +73,7 @@ io.on("connection", function(socket){
     for (const [socketId, language] of Object.entries(userInfo)) {
       const userLanguage = language;
       const translatedMessage = translations[userLanguage] || `[Translation Failed]: ${message}`;
-      io.to(socketId).emit("chatMessage", { ID: data.ID, Message: translatedMessage });
+      io.to(socketId).emit("chatMessage", { ID: data.ID, Message: translatedMessage , ProfileNum:data.ProfileNum});
     }
     
     /*
