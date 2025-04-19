@@ -90,7 +90,7 @@ app.get("/", (req, res) => {
 
 async function sendGeminiTranslate(prompt, language) {
     try {
-        let text2 = prompt + ": translate it in " + language + ".";
+        let text2 = prompt + ": translate it in " + language + ". 번역 결과만 딱 전달해줘. 다른 설명은 절대 하지말고";
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         const result = await model.generateContent(text2);
         const response = await result.response;
