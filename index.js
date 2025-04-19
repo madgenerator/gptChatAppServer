@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require('cors');
 const socketIo = require("socket.io");
 const http = require("http");
-const fetch = require('node-fetch');
+import fetch from 'node-fetch'; // ESM 방식으로 불러오기
 require('dotenv').config(); // .env 파일 로드
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY); // 환경 변수에서 API 키 로드
