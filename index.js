@@ -7,7 +7,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // ✅ 프론트엔드 주소를 변수로 관리
-const FRONTEND_ORIGIN = "https://gpt-chat-app-client.vercel.app";
+const CHAT_FRONTEND_ORIGIN = process.env.CHAT_FRONTEND_URL;
 
 // 사용자 정보 저장
 const userInfo = {};
@@ -17,7 +17,7 @@ const app = express();
 
 // ✅ CORS 설정
 app.use(cors({
-    origin: FRONTEND_ORIGIN,
+    origin: CHAT_FRONTEND_ORIGIN,
     methods: ["GET", "POST"],
     credentials: true
 }));
@@ -27,7 +27,7 @@ const server = http.createServer(app);
 // ✅ Socket.IO CORS 설정
 const io = socketIo(server, {
     cors: {
-        origin: FRONTEND_ORIGIN,
+        origin: CHAT_FRONTEND_ORIGIN,
         methods: ["GET", "POST"],
         credentials: true
     }
